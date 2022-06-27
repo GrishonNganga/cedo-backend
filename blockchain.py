@@ -370,7 +370,7 @@ def create_account(password, amount=None):
 	print("ACCCC")
 	print(account)
 	if amount:
-		tx = {'nonce': web3.eth.get_transaction_count(master_key), "gasPrice": web3.eth.gas_price,"gas": 2000000, "to": Web3.toChecksumAddress(f'0x{account["address"]}'), "value": amount * 1000000000}
+		tx = {'nonce': web3.eth.get_transaction_count(master_key), "gasPrice": web3.eth.gas_price,"gas": 2000000, "to": Web3.toChecksumAddress(f'0x{account["address"]}'), "value": int(amount * 1000000000)}
 	else:
 		tx = {'nonce': web3.eth.get_transaction_count(master_key), "gasPrice": web3.eth.gas_price,"gas": 2000000, "to": Web3.toChecksumAddress(f'0x{account["address"]}')}	
 	
