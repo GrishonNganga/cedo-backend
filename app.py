@@ -6,7 +6,7 @@ from functools import wraps
 from flask_mpesa import MpesaAPI
 from werkzeug.security import generate_password_hash, check_password_hash
 # from ipfs import upload
-from blockchain import campaign_payout, create_account, get_balance, confirm_participation, get_accounts_txs, add_user_to_blockchain
+from blockchain import campaign_payout, create_account, get_balance, confirm_participation, get_accounts_txs, create_normal_user
 from datetime import datetime, timedelta
 
 import jwt, pytz, json, requests
@@ -49,7 +49,7 @@ class User(db.Model):
 		self.age = age
 		self.gender = gender
 		self.location = location
-		self.celo_address = json.dumps(create_account(password))
+		self.celo_address = json.dumps(create_account(password)) if role_id == 1 else json.dumps(create_account(password, basic_user=True))
 	
 	@property
 	def password():
@@ -277,7 +277,6 @@ def signup():
 		role = post_data["role"]
 		role = UserRole.query.filter_by(name=role).first()
 		user = User(role.id, phone, email, password,names=names, age=None, gender=None)
-		create_user_on_blockchain = add_user_to_blockchain(user.celo_address)
 		created_user = user.save()
 		print(created_user)
 		if created_user["status"]:
