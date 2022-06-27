@@ -417,9 +417,6 @@ def campaign_payout(campaign_address_obj, campaign_pk, user_address, amount):
 	print(campaign_pk)
 
 	tx = cUSD_contract.functions.approve(contract_address, amount *1000000000).buildTransaction({'nonce': web3.eth.get_transaction_count(campaign_address), "gasPrice": web3.eth.gas_price})
-	print(tx)
-	print("------BAL--------")
-	print(web3.eth.account.get_balance(campaign_address).call())
 	signed_tx = web3.eth.account.signTransaction(tx, private_key=campaign_pk)
 	web3.eth.send_raw_transaction(signed_tx.rawTransaction)
 	tx_result = web3.eth.wait_for_transaction_receipt(signed_tx["hash"])
