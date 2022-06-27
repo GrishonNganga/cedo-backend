@@ -6,7 +6,7 @@ from functools import wraps
 from flask_mpesa import MpesaAPI
 from werkzeug.security import generate_password_hash, check_password_hash
 # from ipfs import upload
-from blockchain import campaign_payout, create_account, get_balance, confirm_participation, get_accounts_txs
+from blockchain import campaign_payout, create_account, get_balance, confirm_participation, get_accounts_txs, add_user_to_blockchain
 from datetime import datetime, timedelta
 
 import jwt, pytz, json, requests
@@ -277,6 +277,7 @@ def signup():
 		role = post_data["role"]
 		role = UserRole.query.filter_by(name=role).first()
 		user = User(role.id, phone, email, password,names=names, age=None, gender=None)
+		create_user_on_blockchain = add_user_to_blockchain(user.celo_address)
 		created_user = user.save()
 		print(created_user)
 		if created_user["status"]:
@@ -521,7 +522,7 @@ def complete_campaign():
 	print(participated)
 	if participated:
 		return make_response(jsonify({'status': 'success', "message": "Already participated in this campaign"})), 204
-		
+
 	payout = campaign_payout(campaign_address, "123@Iiht", f'0x{user_address["address"]}', 100)
 	if payout:
 		return make_response(jsonify({'status': 'success', "message": "User paid for interacting with brand"})), 200

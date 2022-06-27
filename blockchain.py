@@ -455,3 +455,14 @@ def get_accounts_txs(address):
 # print(create_account("123@Iiht", "100"))
 
 # print(create_account("0x9084eb217c7f996531f960055480c333e43c5bee"))
+
+
+def add_user_to_blockchain(address):
+	tx = cedo_contract.functions.createNewUser(address).buildTransaction({'nonce': web3.eth.get_transaction_count(master_key), "gasPrice": web3.eth.gas_price})
+	signed_tx = web3.eth.account.signTransaction(tx, private_key=master_pass)
+	web3.eth.send_raw_transaction(signed_tx.rawTransaction)
+	tx_result = web3.eth.wait_for_transaction_receipt(signed_tx["hash"])
+	if tx_result and  tx_result["status"]:
+		return True
+	else: 
+		return False
