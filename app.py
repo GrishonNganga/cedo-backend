@@ -19,7 +19,7 @@ app.config["API_ENVIRONMENT"] = "sandbox"
 app.config["APP_KEY"] = "Lb0reO3D6ApZbTmhRH8ErSGgOfek9dHq" 
 app.config["APP_SECRET"] = "Bc1nN8vOHSxwoBje"
 
-CORS(app, origins=["http://localhost:3000"], supports_credentials = True)
+CORS(app, origins=["http://localhost:3000", "https://cedo.netlify.app"], supports_credentials = True)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 mpesa_api=MpesaAPI(app)
