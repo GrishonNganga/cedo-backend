@@ -14,7 +14,7 @@ import jwt, pytz, json, requests
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "OQ@FVuEtE2033>Kw73S%xA!dAy#6ey&fppojkK@<f52@mIdQOfIzKBTyQN!eWg6y2uxtM19lGN>5#mzsDEk2BvraxINa41Q+Fc0s!" 
 app.config["DEBUG"] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://bc10b46987ddb0:c6c3c29d@us-cdbr-east-05.cleardb.net/heroku_5ac6ba61392e615?reconnect=true'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://bc10b46987ddb0:c6c3c29d@us-cdbr-east-05.cleardb.net/heroku_5ac6ba61392e615'
 app.config["API_ENVIRONMENT"] = "sandbox"
 app.config["APP_KEY"] = "Lb0reO3D6ApZbTmhRH8ErSGgOfek9dHq" 
 app.config["APP_SECRET"] = "Bc1nN8vOHSxwoBje"
