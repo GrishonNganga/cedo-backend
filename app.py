@@ -545,5 +545,26 @@ def get_transactions():
 	print(balance)
 	return make_response(jsonify({'status': 'success', "txs": txs, "balance": balance})), 200 
 
+app.route("/confirm_participation", methods=["POST"])
+@login_required
+def confirm_participation():
+	token = request.cookies.get("token") 
+	token = User.decode_auth_token(token)
+	user = User.query.get(token["id"])
+	user_address = json.loads(user.celo_address)
+	post_data = request.get_json(force=True)
+
+	if "campaign_id" not in post_data:
+		return make_response(jsonify({'status': 'fail', "message": "Campaign not found"})), 404
+
+	campaign_id = post_data["campaign_id"]
+	campaign = Campaign.query.get(campaign_id)
+	campaign_address = json.loads(campaign.address)
+	participated = confirm_participation(f'0x{user_address["address"]}', f'0x{campaign_address["address"]}')
+	if participated:
+		return make_response(jsonify({'status': 'success', "message": "Already participated in this campaign"})), 204
+	else:
+		return make_response(jsonify({'status': 'success', "message": "Not participated in this campaign"})), 200
+
 if __name__ == '__main__':
 	app.run()

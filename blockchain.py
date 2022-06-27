@@ -403,7 +403,7 @@ def fund_campaign(campaign_address, amount):
 	web3.eth.send_raw_transaction(signed_tx.rawTransaction)
 	tx_result = web3.eth.wait_for_transaction_receipt(signed_tx["hash"])
 
-	tx = cedo_contract.functions.fundCampaign(master_key, campaign_address, amount).buildTransaction({'nonce': web3.eth.get_transaction_count(master_key), "gasPrice": web3.eth.gas_price})
+	tx = cedo_contract.functions.fundCampaign(master_key, campaign_address, amount).buildTransaction({'nonce': web3.eth.get_transaction_count(master_key), "gasPrice": web3.eth.gas_price, "value": amount})
 	signed_tx = web3.eth.account.signTransaction(tx, private_key=master_pass)
 	web3.eth.send_raw_transaction(signed_tx.rawTransaction)
 	tx_result = web3.eth.wait_for_transaction_receipt(signed_tx["hash"])
