@@ -366,19 +366,27 @@ cUSD_contract = web3.eth.contract(address=cUSD_contract_address, abi=cUSD_contra
 
 def create_account(password, amount=None):
 	account = web3.eth.account.create()
-	print(web3.eth)
+	account = account.encrypt(password)
+	print("ACCCC")
+	print(account)
 	if amount:
-		tx = {'nonce': web3.eth.get_transaction_count(master_key), "gasPrice": web3.eth.gas_price,"gas": 2000000, "to":account.address}
-		signed_tx = web3.eth.account.signTransaction(tx, private_key=master_pass)
-		web3.eth.send_raw_transaction(signed_tx.rawTransaction)
-		tx_result = web3.eth.wait_for_transaction_receipt(signed_tx["hash"])
-		if tx_result and tx_result["status"]:
-			return account.encrypt(password)
+		tx = {'nonce': web3.eth.get_transaction_count(master_key), "gasPrice": web3.eth.gas_price,"gas": 2000000, "to": Web3.toChecksumAddress(f'0x{account["address"]}'), "value": amount * 1000000000}
 	else:
-		if create_normal_user(account.address):
-			return account.encrypt(password)
-		else: return False
-	return account.encrypt(password)
+		tx = {'nonce': web3.eth.get_transaction_count(master_key), "gasPrice": web3.eth.gas_price,"gas": 2000000, "to": Web3.toChecksumAddress(f'0x{account["address"]}')}	
+	
+	signed_tx = web3.eth.account.signTransaction(tx, private_key=master_pass)
+	web3.eth.send_raw_transaction(signed_tx.rawTransaction)
+	tx_result = web3.eth.wait_for_transaction_receipt(signed_tx["hash"])
+	
+	print("---------Transaction------------")
+	print(tx_result)
+	if tx_result and tx_result["status"]:
+		print("Accccounnnntt created")
+		print(account)
+		return account
+	else:
+		return False
+
 
 def get_balance(public_key):
 	return cUSD_contract.functions.balanceOf(Web3.toChecksumAddress(public_key)).call()

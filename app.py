@@ -30,7 +30,7 @@ class User(db.Model):
 	company_name = db.Column(db.String(200))
 	phone = db.Column(db.String(50))
 	email = db.Column(db.String(200), nullable=False)
-	celo_address = db.Column(db.String(100), nullable=False)
+	celo_address = db.Column(db.String(500), nullable=False)
 	age = db.Column(db.Integer)
 	gender = db.Column(db.Integer)
 	location = db.Column(db.String(100))
@@ -101,6 +101,7 @@ class User(db.Model):
 
 	def serialize_company(self):
 		address = self.celo_address
+		print("Address",address)
 		address = json.loads(address)
 		return{
 			'role': "brand",
@@ -165,7 +166,7 @@ class Campaign(db.Model):
 	format = db.Column(db.String(10), nullable=False)
 	link = db.Column(db.String(500), nullable=False)
 	status = db.Column(db.Boolean, nullable=False)
-	address = db.Column(db.String(100))
+	address = db.Column(db.String(500))
 	thumbnail = db.Column(db.String(500))
 
 	def __init__(self,user_id, name, description, male_demographic, female_demographic, min_targeted_ages, max_targeted_ages, format, link, thumbnail):
