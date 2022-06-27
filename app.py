@@ -424,7 +424,7 @@ def mpesa_express():
 		"amount": "1", 
 		"phone_number":f"{phone}",
 		"reference_code": "XAUDIFOMII",
-		"callback_url": "https://ee41-41-212-40-82.ngrok.io/payments/mpesa/callback-url", 
+		"callback_url": "https://cedo.herokuapp.com/payments/mpesa/callback-url", 
 		"description": f"Payment for marketing campaign on Cedo" 
 	}
 	resp = mpesa_api.MpesaExpress.stk_push(**data)  
