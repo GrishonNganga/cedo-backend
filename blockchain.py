@@ -369,13 +369,14 @@ def create_account(password, amount=None, basic_user=None):
 	account = account.encrypt(password)
 	print("ACCCC")
 	print(account)
+	if basic_user:
+		create_normal_user( Web3.toChecksumAddress(f'0x{account["address"]}'))
+
 	if amount:
 		tx = {'nonce': web3.eth.get_transaction_count(master_key), "gasPrice": web3.eth.gas_price,"gas": 2000000, "to": Web3.toChecksumAddress(f'0x{account["address"]}'), "value": int(amount * 1000000000)}
 	else:
 		tx = {'nonce': web3.eth.get_transaction_count(master_key), "gasPrice": web3.eth.gas_price,"gas": 2000000, "to": Web3.toChecksumAddress(f'0x{account["address"]}')}	
 	
-	if basic_user:
-		create_normal_user( Web3.toChecksumAddress(f'0x{account["address"]}'))
 
 	signed_tx = web3.eth.account.signTransaction(tx, private_key=master_pass)
 	web3.eth.send_raw_transaction(signed_tx.rawTransaction)
