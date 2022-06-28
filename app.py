@@ -516,7 +516,7 @@ def complete_campaign():
 	campaign = Campaign.query.get(campaign_id)
 	campaign_address = json.loads(campaign.address)
 	print("campaign_address", campaign_address)
-	participated = confirm_participation(f'0x{user_address["address"]}', f'0x{campaign_address["address"]}')
+	participated = confirm_campaign_participation(f'0x{user_address["address"]}', f'0x{campaign_address["address"]}')
 	print("-------PART---------")
 	print(participated)
 	if participated:
