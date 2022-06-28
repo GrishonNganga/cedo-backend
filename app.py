@@ -6,7 +6,7 @@ from functools import wraps
 from flask_mpesa import MpesaAPI
 from werkzeug.security import generate_password_hash, check_password_hash
 # from ipfs import upload
-from blockchain import campaign_payout, create_account, get_balance, confirm_participation, get_accounts_txs, create_normal_user
+from blockchain import campaign_payout, create_account, get_balance, confirm_campaign_participation, get_accounts_txs, create_normal_user
 from datetime import datetime, timedelta
 
 import jwt, pytz, json, requests
@@ -560,7 +560,7 @@ def confirm_participation():
 	campaign_id = post_data["campaign_id"]
 	campaign = Campaign.query.get(campaign_id)
 	campaign_address = json.loads(campaign.address)
-	participated = confirm_participation(f'0x{user_address["address"]}', f'0x{campaign_address["address"]}')
+	participated = confirm_campaign_participation(f'0x{user_address["address"]}', f'0x{campaign_address["address"]}')
 	if participated:
 		return make_response(jsonify({'status': 'success', "message": "Already participated in this campaign"})), 204
 	else:

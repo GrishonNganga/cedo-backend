@@ -434,7 +434,7 @@ def campaign_payout(campaign_address_obj, campaign_pk, user_address, amount):
 	else: 
 		return False
 
-def confirm_participation(user_address, campaign_address):
+def confirm_campaign_participation(user_address, campaign_address):
 	return cedo_contract.functions.checkIfUserParticipatedInCampaign(Web3.toChecksumAddress(user_address), Web3.toChecksumAddress(campaign_address)).call()
 
 
